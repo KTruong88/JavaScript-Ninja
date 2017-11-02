@@ -1,3 +1,16 @@
+funcion update(element, content, klass) {
+  var p = element.firstChild || document.createElement("p");
+  p.textContent = content;
+  element.appendChild(p);
+  if (klass) {
+    p.className = klass;
+  }
+}
+
+var $question = document.getElementById("question");
+var $score = document.getElementById("score");
+var $feedback = document.getElementById("feedback");
+
 quiz = {
   "name": "Super Hero Name Quiz",
   "description": "How many super heroes can you name?",
@@ -13,6 +26,8 @@ var score = 0
 play(quiz);
 
 function play(quiz) {
+  update($score, score)
+
   var i, quesiton, answer, max = quiz.questions.length;
   for (i = 0, i < max; i++) {
       question = quiz.questions[i].question;
@@ -22,18 +37,19 @@ function play(quiz) {
   gameOver();
 
   function ask(question) {
-    return prompt(quiz.question + question);
+    update($question, quiz.question + question);
+    return prompt("Enter your answer:");
   }
   function check(answer) {
     if (answer === quiz.questions[i].answer) {
-      alert("Correct!");
+      update($feedback, "Correct!", "right");
       score++;
+      update($score, score)
     } else {
       alert("Wrong!");
     }
   }
   function gameOver() {
-    alert("Game Over, you scored " + score + " points");
+    update($question, "Game Over, you scored " + score + " points");
   }
 }
-
